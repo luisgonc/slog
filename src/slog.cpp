@@ -4,9 +4,7 @@
 
 #include "slog.h"
 
-#include <cstring>
 #include <cstdio>
-#include <iostream>
 
 namespace slog {
 
@@ -14,6 +12,7 @@ namespace slog {
     m_level(level::INFO),
     m_last_log_level(level::INFO),
     m_radix(radix::DEC),
+    m_print_date(false),
     m_time_provider(nullptr) {
 
         /* Store the given logger name up to the buffer size, the excess will be trimmed */
@@ -56,16 +55,33 @@ namespace slog {
         return m_logger_name;
     }
 
+    void logger::set_print_date(bool print_date) {
+        m_print_date = print_date;
+    }
+
+    bool logger::get_print_date() {
+        return m_print_date;
+    }
+
     const char* logger::get_print_timestamp() {
-        /* The timestamp should look like this: [23:12:35.123] */
+        /* The timestamp should look like this: [2024/02/10 23:12:35.123] or
+         *                           like this: [23:12:35.123]
+         * depending if the date should be printed or NOT */
 
         if (m_time_provider != nullptr) {
             /* Get the current time from the time provider */
             timedate td = m_time_provider();
 
-            /* Build the timestamp using the information from the time provider */
-            std::snprintf(m_print_timestamp, sizeof(m_print_timestamp), "[%02d:%02d:%02d.%03d]",
-                          td.getMHour(), td.getMMinute(), td.getMSecond(), td.getMMillisecond());
+            if(m_print_date) {
+                /* Build the timestamp using the information from the time provider */
+                std::snprintf(m_print_timestamp, sizeof(m_print_timestamp), "[%04d/%02d/%02d %02d:%02d:%02d.%03d]",
+                              td.getMYear(), td.getMMonth(), td.getMDay(),
+                              td.getMHour(), td.getMMinute(), td.getMSecond(), td.getMMillisecond());
+            } else {
+                /* Build the timestamp using the information from the time provider */
+                std::snprintf(m_print_timestamp, sizeof(m_print_timestamp), "[%02d:%02d:%02d.%03d]",
+                              td.getMHour(), td.getMMinute(), td.getMSecond(), td.getMMillisecond());
+            }
         }
 
         return m_print_timestamp;
@@ -99,6 +115,10 @@ namespace slog {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "FATAL" );
                 break;
             }
+            case level::DISABLED: {
+                std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "DISAB" );
+                break;
+            }
             default: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "UNKNW" );
                 break;
@@ -120,7 +140,9 @@ namespace slog {
     void logger::log_write(level level, const char *msg) {
 
         /* check the log level */
-        if (level < m_level) {
+        if(m_level == level::DISABLED || 
+           level == level::DISABLED ||
+           level < m_level) {
             return;
         }
 

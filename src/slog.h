@@ -10,8 +10,6 @@
 #include <string_view>
 #include <functional>
 #include <chrono>
-#include <concepts>
-#include <type_traits>
 
 #include "timedate.h"
 
@@ -79,6 +77,19 @@ namespace slog {
          * @param time_provider, function pointer to time provider
          */
         void set_time_provider(std::function<timedate()> time_provider);
+
+        /**
+         * @brief Set the print date flag, when this flag is set to true the logger will print the
+         *       date in the log message. The date is provided by the time provider.
+         * @param print_date, true to print the date, false otherwise
+         */
+        void set_print_date(bool print_date);
+
+        /**
+         * @brief Get the print date flag
+         * @return bool, true if the date is printed, false otherwise
+         */
+        bool get_print_date();
 
         logger& log(level log_level, const char* msg);
 
@@ -179,10 +190,11 @@ namespace slog {
         level m_level;
         level m_last_log_level;
         radix m_radix;
+        bool m_print_date;
         std::function<timedate()> m_time_provider;
         std::function<void(const char*)> m_appenders[MAX_NBR_LOG_APPENDER];
         char m_logger_name[MAX_LOG_NAME_LEN];
-        char m_print_timestamp[20];
+        char m_print_timestamp[40];
         char m_print_level_str[10];
         char m_print_logger_name[MAX_LOG_NAME_LEN+2];
 
