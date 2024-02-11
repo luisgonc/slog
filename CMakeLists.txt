@@ -2,7 +2,10 @@
 cmake_minimum_required(VERSION 3.16)
 
 # project name and version
-project(small_log)
+project(small_log 
+        VERSION 1.0 
+        DESCRIPTION "A small footprint logging library - no heap usage"
+        LANGUAGES CXX)
 
 # set C++ standard
 set(CMAKE_CXX_STANDARD 17)

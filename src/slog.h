@@ -202,4 +202,12 @@ namespace slog {
 
 } // slog
 
+/* Logging Makros */
+#define SLOG_TRACE(logger, msg) logger.log(slog::logger::level::TRACE, msg)
+#define SLOG_DEBUG(logger, msg) logger.log(slog::logger::level::DEBUG, msg)
+#define SLOG_INFO(logger, msg) logger.log(slog::logger::level::INFO, msg)
+#define SLOG_WARN(logger, msg) logger.log(slog::logger::level::WARN, msg)
+#define SLOG_ERROR(logger, msg) logger.log(slog::logger::level::ERROR, msg)
+#define SLOG_FATAL(logger, msg) logger.log(slog::logger::level::FATAL, msg)
+
 #endif //SMALL_LOG_SLOG_H

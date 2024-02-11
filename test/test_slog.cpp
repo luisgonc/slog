@@ -820,3 +820,68 @@ TEST(SmallLogTest, logger_disabled) {
     logger.log(slog::logger::level::DISABLED, "Disabled message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
+
+TEST(SmallLogTest, logger_makros) {
+    /* Check logging with the makros will work the same way */
+
+    /* Create a logger */
+    auto logger = slog::logger("test_logger");
+
+    /* String stream to store the log output */
+    std::stringstream ss;
+
+    /* Create a lambda function to be used as an appender */
+    auto appender = [&ss](const char *msg) {
+        ss << msg;
+    };
+
+    /* Create a lambda function to be used as time provider */
+    auto time_provider = []() {
+        slog::timedate td;
+        td.setMYear(2024);
+        td.setMMonth(1);
+        td.setMDay(30);
+        td.setMHour(23);
+        td.setMMinute(25);
+        td.setMSecond(16);
+        td.setMMillisecond(753);
+        return td;
+    };
+
+    /* Add the appender to the logger */
+    logger.add_appender(appender);
+    /* Add timer provider to the logger */
+    logger.set_time_provider(time_provider);
+    /* Set level as TRACE */
+    logger.set_Level(slog::logger::level::TRACE);
+
+    /* TRACE message */
+    ss.str(std::string()); // clear the stringstream    
+    SLOG_TRACE(logger, "Trace message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][TRACE][test_logger] Trace message test");
+
+    /* DEBUG message */
+    ss.str(std::string()); // clear the stringstream
+    SLOG_DEBUG(logger, "Debug message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][DEBUG][test_logger] Debug message test");
+
+    /* INFO message */
+    ss.str(std::string()); // clear the stringstream
+    SLOG_INFO(logger, "Info message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Info message test");
+
+    /* WARN message */
+    ss.str(std::string()); // clear the stringstream
+    SLOG_WARN(logger, "Warn message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][WARN ][test_logger] Warn message test");
+
+    /* ERROR message */
+    ss.str(std::string());
+    SLOG_ERROR(logger, "Error message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
+
+    /* FATAL message */
+    ss.str(std::string());
+    SLOG_FATAL(logger, "Fatal message ") << "test";
+    EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
+}
