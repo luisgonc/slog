@@ -1,5 +1,4 @@
 # ubunutu is the base image
-
 FROM ubuntu:20.04
 
 # this is for timezone config
@@ -21,3 +20,5 @@ RUN cmake .. && cmake --build .  --parallel && cmake --install .
 WORKDIR "/"
 RUN rm -rf googletest
 
+# entrypoint
+ENTRYPOINT ["/bin/bash"]
