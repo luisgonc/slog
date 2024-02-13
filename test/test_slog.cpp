@@ -40,37 +40,37 @@ TEST(SmallLogTest, logger_level) {
     /* Create a logger */
     auto logger = slog::logger("test_logger");
     /* Check that the default level is INFO */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::INFO);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::info);
 
     /* Set the level to DEBUG */
-    logger.set_Level(slog::logger::level::DEBUG);
+    logger.set_Level(slog::logger::level::debug);
     /* Check that the level is now DEBUG */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::DEBUG);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::debug);
 
     /* Set the level to TRACE */
-    logger.set_Level(slog::logger::level::TRACE);
+    logger.set_Level(slog::logger::level::trace);
     /* Check that the level is now TRACE */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::TRACE);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::trace);
 
     /* Set the level to WARN */
-    logger.set_Level(slog::logger::level::WARN);
+    logger.set_Level(slog::logger::level::warn);
     /* Check that the level is now WARN */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::WARN);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::warn);
 
     /* Set the level to ERROR */
-    logger.set_Level(slog::logger::level::ERROR);
+    logger.set_Level(slog::logger::level::error);
     /* Check that the level is now ERROR */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::ERROR);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::error);
 
     /* Set the level to FATAL */
-    logger.set_Level(slog::logger::level::FATAL);
+    logger.set_Level(slog::logger::level::fatal);
     /* Check that the level is now FATAL */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::FATAL);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::fatal);
 
     /* Set the level to DISABLED */
-    logger.set_Level(slog::logger::level::DISABLED);
+    logger.set_Level(slog::logger::level::disabled);
     /* Check that the level is now DISABLED */
-    EXPECT_EQ(logger.get_Level(), slog::logger::level::DISABLED);
+    EXPECT_EQ(logger.get_Level(), slog::logger::level::disabled);
 }
 
 
@@ -126,7 +126,7 @@ TEST(SmallLogTest, logger_no_time_multiple_appenders) {
 
     ss.str(std::string()); // clear the stringstream
     /* Log the message as char* */
-    logger.log(slog::logger::level::INFO, "log message test");
+    logger.log(slog::logger::level::info, "log message test");
 
     /* Check both appenders received the message 
      * and both with no time information as expected */
@@ -167,7 +167,7 @@ TEST(SmallLogTest, logger_time_n_date) {
 
     /* If there is no time providers time and date will not be printed */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "log message test");
+    logger.log(slog::logger::level::info, "log message test");
     EXPECT_EQ(ss.str(), "\n[INFO ][test_logger] log message test");
 
     /* Add timer provider to the logger */
@@ -175,14 +175,14 @@ TEST(SmallLogTest, logger_time_n_date) {
 
     /* By default date will NOT be printed */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "log message test");
+    logger.log(slog::logger::level::info, "log message test");
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] log message test");
 
     /* Explicitly set the date to be printed together with the time information */
     logger.set_print_date(true);
     
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "log message test");
+    logger.log(slog::logger::level::info, "log message test");
     EXPECT_EQ(ss.str(), "\n[2024/01/30 23:25:16.753][INFO ][test_logger] log message test");
 }
 
@@ -221,74 +221,74 @@ TEST(SmallLogTest, logger_message_types) {
 
     /* Log the message as char pointer */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "char pointer test");
+    logger.log(slog::logger::level::info, "char pointer test");
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] char pointer test");
 
     /* Log the message as string */
     ss.str(std::string()); // clear the stringstream
     std::string str = "string test";
-    logger.log(slog::logger::level::INFO, str);
+    logger.log(slog::logger::level::info, str);
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] string test");
 
     /* Log the message as string_view */
     ss.str(std::string()); // clear the stringstream
     std::string_view str_vw = "string_view test";
-    logger.log(slog::logger::level::INFO, str_vw);
+    logger.log(slog::logger::level::info, str_vw);
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] string_view test");
 
     /* << operator with char * */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "Operator <<") << " | char pointer test";
+    logger.log(slog::logger::level::info, "Operator <<") << " | char pointer test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << | char pointer test");
 
     /* << operator with string */
     ss.str(std::string()); // clear the stringstream
     std::string str2 = " | string2 test";
-    logger.log(slog::logger::level::INFO, "Operator <<") << str2;
+    logger.log(slog::logger::level::info, "Operator <<") << str2;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << | string2 test");
 
     /* << operator with string_view */
     ss.str(std::string()); // clear the stringstream
     std::string_view str_vw2 = " | string_view2 test";
-    logger.log(slog::logger::level::INFO, "Operator <<") << str_vw2;
+    logger.log(slog::logger::level::info, "Operator <<") << str_vw2;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << | string_view2 test");
 
     /* << operator with std::chrono::seconds */
     ss.str(std::string()); // clear the stringstream
     std::chrono::seconds time_s = std::chrono::seconds(123);
-    logger.log(slog::logger::level::INFO, "Operator << ") << time_s;
+    logger.log(slog::logger::level::info, "Operator << ") << time_s;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 123s");
 
     /* << operator with std::chrono::milliseconds */
     ss.str(std::string()); // clear the stringstream
     std::chrono::milliseconds time_ms = std::chrono::milliseconds(456);
-    logger.log(slog::logger::level::INFO, "Operator << ") << time_ms;
+    logger.log(slog::logger::level::info, "Operator << ") << time_ms;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 456ms");
 
     /* << operator with std::chrono::microseconds */
     ss.str(std::string()); // clear the stringstream
     std::chrono::microseconds time_us = std::chrono::microseconds(789);
-    logger.log(slog::logger::level::INFO, "Operator << ") << time_us;
+    logger.log(slog::logger::level::info, "Operator << ") << time_us;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 789us");
 
     /* << operator with Radix binary */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "Operator << ") << slog::logger::radix::BIN << 170;
+    logger.log(slog::logger::level::info, "Operator << ") << slog::logger::radix::bin << 170;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 0b10101010");
 
     /* << operator with Radix octal */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "Operator << ") << slog::logger::radix::OCT << 170;
+    logger.log(slog::logger::level::info, "Operator << ") << slog::logger::radix::oct << 170;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 0o252");
 
     /* << operator with Radix decimal */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "Operator << ") << slog::logger::radix::DEC << 0xAA;
+    logger.log(slog::logger::level::info, "Operator << ") << slog::logger::radix::dec << 0xAA;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 170");
 
     /* << operator with Radix hexadecimal */
     ss.str(std::string()); // clear the stringstream
-    logger.log(slog::logger::level::INFO, "Operator << ") << slog::logger::radix::HEX << 170;
+    logger.log(slog::logger::level::info, "Operator << ") << slog::logger::radix::hex << 170;
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Operator << 0xAA");
 }
 
@@ -329,44 +329,44 @@ TEST(SmallLogTest, logger_trace) {
 
     /* TRACE message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][TRACE][test_logger] Trace message test");
 
     /* TRACE message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* TRACE message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* TRACE message in WARN current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* TRACE message in ERROR current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* TRACE message in FATAL current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* TRACE message in DISABLED current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::TRACE, "Trace message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::trace, "Trace message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -408,44 +408,44 @@ TEST(SmallLogTest, logger_debug) {
 
     /* DEBUG message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][DEBUG][test_logger] Debug message test");
 
     /* DEBUG message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][DEBUG][test_logger] Debug message test");
 
     /* DEBUG message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* DEBUG message in WARN current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* DEBUG message in ERROR current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* DEBUG message in FATAL current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* DEBUG message in DISABLED current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::DEBUG, "Debug message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::debug, "Debug message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -488,44 +488,44 @@ TEST(SmallLogTest, logger_info) {
 
     /* INFO message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Info message test");
 
     /* INFO message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Info message test");
 
     /* INFO message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][INFO ][test_logger] Info message test");
 
     /* INFO message in WARN current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* INFO message in ERROR current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* INFO message in FATAL current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* INFO message in DISABLED current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::INFO, "Info message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::info, "Info message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -569,44 +569,44 @@ TEST(SmallLogTest, logger_warn) {
 
     /* WARN message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][WARN ][test_logger] Warn message test");
 
     /* WARN message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][WARN ][test_logger] Warn message test");
 
     /* WARN message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][WARN ][test_logger] Warn message test");
 
     /* WARN message in WARN current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][WARN ][test_logger] Warn message test");
 
     /* WARN message in ERROR current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* WARN message in FATAL current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* WARN message in DISABLED current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::WARN, "Warn message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::warn, "Warn message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -651,44 +651,44 @@ TEST(SmallLogTest, logger_error) {
 
     /* ERROR message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
 
     /* ERROR message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
 
     /* ERROR message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
 
     /* ERROR message in WARN current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
 
     /* ERROR message in ERROR current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][ERROR][test_logger] Error message test");
 
     /* ERROR message in FATAL current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* ERROR message in DISABLED current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::ERROR, "Error message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::error, "Error message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -734,44 +734,44 @@ TEST(SmallLogTest, logger_fatal) {
 
     /* FATAL message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in DEBUG current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DEBUG);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::debug);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in INFO current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::INFO);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::info);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in WARN current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::WARN);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::warn);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in ERROR current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::ERROR);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::error);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in FATAL current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::FATAL);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::fatal);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "\n[23:25:16.753][FATAL][test_logger] Fatal message test");
 
     /* FATAL message in DISABLED current level */
     ss.str(std::string());
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::FATAL, "Fatal message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::fatal, "Fatal message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -810,14 +810,14 @@ TEST(SmallLogTest, logger_disabled) {
 
     /* DISABLED message in TRACE current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::TRACE);
-    logger.log(slog::logger::level::DISABLED, "Disabled message ") << "test";
+    logger.set_Level(slog::logger::level::trace);
+    logger.log(slog::logger::level::disabled, "Disabled message ") << "test";
     EXPECT_EQ(ss.str(), "");
 
     /* DISABLED message in DISABLED current level */
     ss.str(std::string()); // clear the stringstream
-    logger.set_Level(slog::logger::level::DISABLED);
-    logger.log(slog::logger::level::DISABLED, "Disabled message ") << "test";
+    logger.set_Level(slog::logger::level::disabled);
+    logger.log(slog::logger::level::disabled, "Disabled message ") << "test";
     EXPECT_EQ(ss.str(), "");
 }
 
@@ -853,7 +853,7 @@ TEST(SmallLogTest, logger_makros) {
     /* Add timer provider to the logger */
     logger.set_time_provider(time_provider);
     /* Set level as TRACE */
-    logger.set_Level(slog::logger::level::TRACE);
+    logger.set_Level(slog::logger::level::trace);
 
     /* TRACE message */
     ss.str(std::string()); // clear the stringstream    

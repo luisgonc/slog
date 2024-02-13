@@ -9,9 +9,9 @@
 namespace slog {
 
     logger::logger(const char* logger_name) :
-    m_level(level::INFO),
-    m_last_log_level(level::INFO),
-    m_radix(radix::DEC),
+    m_level(level::info),
+    m_last_log_level(level::info),
+    m_radix(radix::dec),
     m_print_date(false),
     m_time_provider(nullptr) {
 
@@ -91,31 +91,31 @@ namespace slog {
         std::memset(m_print_level_str, 0, sizeof(m_print_level_str));
 
         switch (level) {
-            case level::TRACE: {
+            case level::trace: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "TRACE");
                 break;
             }
-            case level::DEBUG: {
+            case level::debug: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "DEBUG" );
                 break;
             }
-            case level::INFO: {
+            case level::info: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "INFO " );
                 break;
             }
-            case level::WARN: {
+            case level::warn: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "WARN " );
                 break;
             }
-            case level::ERROR: {
+            case level::error: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "ERROR" );
                 break;
             }
-            case level::FATAL: {
+            case level::fatal: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "FATAL" );
                 break;
             }
-            case level::DISABLED: {
+            case level::disabled: {
                 std::snprintf(m_print_level_str, sizeof(m_print_level_str), "[%s]", "DISAB" );
                 break;
             }
@@ -140,8 +140,8 @@ namespace slog {
     void logger::log_write(level level, const char *msg) {
 
         /* check the log level */
-        if(m_level == level::DISABLED || 
-           level == level::DISABLED ||
+        if(m_level == level::disabled || 
+           level == level::disabled ||
            level < m_level) {
             return;
         }
@@ -204,7 +204,7 @@ namespace slog {
 
     logger &logger::operator<<(std::chrono::seconds time) {
 
-        operator<<(radix::DEC);
+        operator<<(radix::dec);
         operator<<(time.count());
         operator<<("s");
 
@@ -213,7 +213,7 @@ namespace slog {
 
     logger &logger::operator<<(std::chrono::milliseconds time) {
 
-        operator<<(radix::DEC);
+        operator<<(radix::dec);
         operator<<(time.count());
         operator<<("ms");
 
@@ -222,7 +222,7 @@ namespace slog {
 
     logger &logger::operator<<(std::chrono::microseconds time) {
 
-        operator<<(radix::DEC);
+        operator<<(radix::dec);
         operator<<(time.count());
         operator<<("us");
 

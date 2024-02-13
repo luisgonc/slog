@@ -27,10 +27,10 @@ namespace slog {
     class logger {
     public:
         /* log level enumeration */
-        enum class level {TRACE=0, DEBUG, INFO, WARN, ERROR, FATAL, DISABLED};
+        enum class level {trace=0, debug, info, warn, error, fatal, disabled};
 
         /* radix enumeration */
-        enum class radix {BIN=2, OCT=8, DEC=10, HEX=16};
+        enum class radix {bin=2, oct=8, dec=10, hex=16};
 
         /* default constructor */
         explicit logger(const char* logger_name);
@@ -124,21 +124,21 @@ namespace slog {
             {
                 default:
                     /* intentional fall through */
-                case radix::DEC:
+                case radix::dec:
                     break;
-                case radix::BIN:
+                case radix::bin:
                     fielddata[0] = '0';
                     fielddata[1] = 'b';
                     fieldindex += 2;
                     first += 2;
                     break;
-                case radix::OCT:
+                case radix::oct:
                     fielddata[0] = '0';
                     fielddata[1] = 'o';
                     fieldindex += 2;
                     first += 2;
                     break;
-                case radix::HEX:
+                case radix::hex:
                     fielddata[0] = '0';
                     fielddata[1] = 'x';
                     fieldindex += 2;
@@ -203,11 +203,11 @@ namespace slog {
 } // slog
 
 /* Logging Makros */
-#define SLOG_TRACE(logger, msg) logger.log(slog::logger::level::TRACE, msg)
-#define SLOG_DEBUG(logger, msg) logger.log(slog::logger::level::DEBUG, msg)
-#define SLOG_INFO(logger, msg) logger.log(slog::logger::level::INFO, msg)
-#define SLOG_WARN(logger, msg) logger.log(slog::logger::level::WARN, msg)
-#define SLOG_ERROR(logger, msg) logger.log(slog::logger::level::ERROR, msg)
-#define SLOG_FATAL(logger, msg) logger.log(slog::logger::level::FATAL, msg)
+#define SLOG_TRACE(logger, msg) logger.log(slog::logger::level::trace, msg)
+#define SLOG_DEBUG(logger, msg) logger.log(slog::logger::level::debug, msg)
+#define SLOG_INFO(logger, msg) logger.log(slog::logger::level::info, msg)
+#define SLOG_WARN(logger, msg) logger.log(slog::logger::level::warn, msg)
+#define SLOG_ERROR(logger, msg) logger.log(slog::logger::level::error, msg)
+#define SLOG_FATAL(logger, msg) logger.log(slog::logger::level::fatal, msg)
 
 #endif //SMALL_LOG_SLOG_H
